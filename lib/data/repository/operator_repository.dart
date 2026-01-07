@@ -13,9 +13,15 @@ class OperatorRepository {
 
   OperatorRepository(this._dio);
 
-  Future<List<OperatorModel>> getOperators() async {
+  Future<List<OperatorModel>> getOperators({int skip = 0, int limit = 50}) async {
     try {
-      final response = await _dio.get('/operators');
+      final response = await _dio.get(
+        '/operators',
+        queryParameters: {
+          'skip': skip,
+          'limit': limit,
+        },
+      );
       
       // Dio는 자동으로 JSON을 디코딩해줍니다 (jsonDecode 불필요)
       final List<dynamic> data = response.data;

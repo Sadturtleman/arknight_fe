@@ -4,7 +4,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart'; // 1. 임포트 추�
 
 final dioProvider = Provider<Dio>((ref) {
   final options = BaseOptions(
-    baseUrl: 'http://127.0.0.1:8000',
+    baseUrl: 'https://arknightserver.cloud',
     connectTimeout: const Duration(seconds: 5),
     receiveTimeout: const Duration(seconds: 3),
     contentType: Headers.jsonContentType,
