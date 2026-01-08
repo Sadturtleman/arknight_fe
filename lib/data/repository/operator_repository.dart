@@ -13,13 +13,14 @@ class OperatorRepository {
 
   OperatorRepository(this._dio);
 
-  Future<List<OperatorModel>> getOperators({int skip = 0, int limit = 50}) async {
+  Future<List<OperatorModel>> getOperators({int skip = 0, int limit = 50, String? rarity}) async {
     try {
       final response = await _dio.get(
         '/operators',
         queryParameters: {
           'skip': skip,
           'limit': limit,
+          'rarity': rarity,
         },
       );
       
@@ -30,4 +31,13 @@ class OperatorRepository {
       throw Exception('API Error: ${e.message}');
     }
   }
+
+  Future<OperatorDetailModel> getOperatorDetail(String name) async {
+  try {
+    final response = await _dio.get('/operators/$name');
+    return OperatorDetailModel.fromJson(response.data);
+  } on DioException catch (e) {
+    throw Exception('상세 정보 로드 실패: ${e.message}');
+  }
+}
 }

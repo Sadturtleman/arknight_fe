@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/models/operator_model.dart';
 import '../data/repository/operator_repository.dart';
+import 'package:flutter/foundation.dart';
 
 // 페이지네이션 상태를 관리하는 클래스
 class PaginationState {
@@ -9,6 +10,7 @@ class PaginationState {
   final bool isLoading;
   final bool hasMore;
   final String? error;
+  final int? selectedRarity;
 
   PaginationState({
     required this.operators,
@@ -16,6 +18,7 @@ class PaginationState {
     required this.isLoading,
     required this.hasMore,
     this.error,
+    this.selectedRarity
   });
 
   PaginationState copyWith({
@@ -24,6 +27,7 @@ class PaginationState {
     bool? isLoading,
     bool? hasMore,
     String? error,
+    int? selectedRarity,
   }) {
     return PaginationState(
       operators: operators ?? this.operators,
@@ -31,6 +35,7 @@ class PaginationState {
       isLoading: isLoading ?? this.isLoading,
       hasMore: hasMore ?? this.hasMore,
       error: error ?? this.error,
+      selectedRarity: selectedRarity ?? this.selectedRarity,
     );
   }
 
@@ -41,95 +46,134 @@ class PaginationState {
       isLoading: false,
       hasMore: true,
       error: null,
+      selectedRarity: 6
     );
   }
 }
 
-// 최신 Riverpod의 Notifier 사용
+
 class OperatorPaginationNotifier extends Notifier<PaginationState> {
   static const int pageSize = 50;
 
   @override
   PaginationState build() {
-    // 초기화 시 첫 페이지 자동 로드
-    loadInitialPage();
+    // build 내에서 미래에 실행될 작업을 microtask로 등록하거나 
+    // 그냥 초기 상태만 반환하고 UI에서 호출하는 것이 안전합니다.
+    Future.microtask(() => loadInitialPage());
     return PaginationState.initial();
   }
 
   OperatorRepository get repository => ref.read(operatorRepositoryProvider);
 
+  // 선택된 등급을 문자열로 변환 (int 6 -> 'TIER_6')
+  String? get _rarityQuery => state.selectedRarity != null ? 'TIER_${state.selectedRarity}' : null;
+
+  void setSelectedRarity(int? rarity) {
+    state = state.copyWith(selectedRarity: rarity);
+    refresh(); // 필터 변경 시 초기화 후 다시 로드
+  }
+
   // 첫 페이지 로드
   Future<void> loadInitialPage() async {
-    state = state.copyWith(isLoading: true, error: null);
+    state = state.copyWith(isLoading: true, error: null, operators: []); // 필터 변경 시 목록 비우기
     
     try {
-      final operators = await repository.getOperators(skip: 0, limit: pageSize);
+      final operators = await repository.getOperators(
+        skip: 0, 
+        limit: pageSize,
+        rarity: _rarityQuery, // 서버로 쿼리 전달!
+      );
+      
+      final sortedOperators = await compute(_sortOperatorsInIsolate, operators);
+      
       state = state.copyWith(
-        operators: operators,
+        operators: sortedOperators,
         currentPage: 1,
         isLoading: false,
-        hasMore: operators.length == pageSize,
+        hasMore: sortedOperators.length == pageSize,
       );
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 
-  // 다음 페이지 로드 (무한 스크롤용)
+  // 다음 페이지 로드 시에도 rarity 전달
   Future<void> loadNextPage() async {
     if (state.isLoading || !state.hasMore) return;
-
-    state = state.copyWith(isLoading: true, error: null);
+    state = state.copyWith(isLoading: true);
     
     try {
       final skip = state.currentPage * pageSize;
-      final newOperators = await repository.getOperators(skip: skip, limit: pageSize);
+      final newOperators = await repository.getOperators(
+        skip: skip, 
+        limit: pageSize,
+        rarity: _rarityQuery, // 동일하게 전달
+      );
       
+      final sortedNewOperators = await compute(_sortOperatorsInIsolate, newOperators);
+
       state = state.copyWith(
-        operators: [...state.operators, ...newOperators],
+        operators: [...state.operators, ...sortedNewOperators],
         currentPage: state.currentPage + 1,
         isLoading: false,
-        hasMore: newOperators.length == pageSize,
+        hasMore: sortedNewOperators.length == pageSize,
       );
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 
-  // 특정 페이지로 이동
-  Future<void> loadPage(int page) async {
-    if (page < 1 || state.isLoading) return;
 
-    state = state.copyWith(isLoading: true, error: null);
-    
-    try {
-      final skip = (page - 1) * pageSize;
-      final operators = await repository.getOperators(skip: skip, limit: pageSize);
-      
-      state = state.copyWith(
-        operators: operators,
-        currentPage: page,
-        isLoading: false,
-        hasMore: operators.length == pageSize,
-      );
-    } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
-    }
+  List<OperatorModel> _sortOperatorsInIsolate(List<OperatorModel> list) {
+    list.sort((a, b) {
+      int aLvl = int.tryParse(a.rarity.split('_').last) ?? 0;
+      int bLvl = int.tryParse(b.rarity.split('_').last) ?? 0;
+      if (aLvl != bLvl) return aLvl.compareTo(bLvl);
+      return a.name.compareTo(b.name);
+    });
+    return list;
   }
 
-  // 새로고침
   Future<void> refresh() async {
     state = PaginationState.initial();
     await loadInitialPage();
+  }
+
+// 특정 페이지로 이동 (숫자 입력 또는 하단 네비게이션용)
+  Future<void> loadPage(int page) async {
+    // 1. 유효하지 않은 페이지 번호거나 로딩 중이면 중단
+    if (page < 1 || state.isLoading) return;
+
+    // 2. 로딩 상태로 변경 및 기존 데이터 초기화 (특정 페이지 이동은 기존 목록을 대체)
+    state = state.copyWith(isLoading: true, error: null);
+    
+    try {
+      // 3. skip 계산 (예: 1페이지는 0, 2페이지는 50개 건너뜀)
+      final skip = (page - 1) * pageSize;
+      
+      // 4. 리포지토리 호출 (현재 선택된 rarity 쿼리 포함)
+      final operators = await repository.getOperators(
+        skip: skip, 
+        limit: pageSize,
+        rarity: _rarityQuery, // Notifier에 정의한 getter 사용
+      );
+      
+      // 5. 받아온 데이터 정렬 (오름차순)
+      final sortedOperators = await compute(_sortOperatorsInIsolate, operators);
+
+      // 6. 상태 업데이트
+      state = state.copyWith(
+        operators: sortedOperators,
+        currentPage: page,
+        isLoading: false,
+        hasMore: sortedOperators.length == pageSize,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      );
+    }
   }
 }
 
@@ -137,3 +181,7 @@ class OperatorPaginationNotifier extends Notifier<PaginationState> {
 final operatorPaginationProvider = NotifierProvider<OperatorPaginationNotifier, PaginationState>(
   OperatorPaginationNotifier.new,
 );
+
+final operatorDetailProvider = FutureProvider.family<OperatorDetailModel, String>((ref, name) {
+  return ref.watch(operatorRepositoryProvider).getOperatorDetail(name);
+});
