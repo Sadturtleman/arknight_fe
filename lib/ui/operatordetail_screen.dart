@@ -122,79 +122,6 @@ class OperatorDetailScreen extends ConsumerWidget {
     );
   }
 
-  // --- 오른쪽: 정보 탭 (스탯, 스킬, 모듈) ---
-  Widget _buildInfoTabs(OperatorDetailModel data) {
-    // 소비 재료를 타입별로 분류
-    final evolveConsumptions = data.consumptions.where((c) => c.type == 'EVOLVE').toList();
-    final skillConsumptions = data.consumptions.where((c) => c.type.startsWith('SKILL')).toList();
-    final moduleConsumptions = data.consumptions.where((c) => c.type == 'MODULE').toList();
-
-    return DefaultTabController(
-      length: 3, // 스탯, 스킬, 모듈 탭
-      child: Column(
-        children: [
-          const TabBar(
-            tabs: [
-              Tab(text: 'Stats'),
-              Tab(text: 'Skills'),
-              Tab(text: 'Modules'),
-            ],
-            indicatorColor: Color(0xFFFFCF00),
-            indicatorWeight: 3,
-            labelStyle: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2),
-            unselectedLabelColor: Colors.grey,
-          ),
-          Expanded(
-            child: TabBarView(
-              children: [
-                // 1. Stats 탭
-                SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildDetailHeader(data),
-                      const SizedBox(height: 24),
-                      OperatorStatModule(phases: data.phases, rarityString: data.rarity),
-                      Text(
-                        data.description.replaceAll(RegExp(r'<@ba.kw>(.*?)</>'), r'**\1**'), // @ba.kw 태그 간단 처리
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                      const Divider(height: 32),
-                      _buildConsumptionSection('Elite Consumptions', evolveConsumptions),
-                    ],
-                  ),
-                ),
-                // 2. Skills 탭
-                SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('${data.name} Skill & Mastery Consumptions', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      _buildConsumptionSection('Skill Levels', skillConsumptions),
-                    ],
-                  ),
-                ),
-                // 3. Modules 탭
-                SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('${data.name} Module Consumptions', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      _buildConsumptionSection('Module Upgrades', moduleConsumptions),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   // --- 재료 목록 섹션 (아이템 아이콘 적용) ---
   Widget _buildConsumptionSection(String title, List<ConsumptionModel> consumptions) {
     if (consumptions.isEmpty) return const SizedBox.shrink();
@@ -244,6 +171,151 @@ class OperatorDetailScreen extends ConsumerWidget {
               ),
             ],
           )).toList(),
+        ),
+      ],
+    );
+  }
+
+  // lib/screens/operatordetail_screen.dart
+
+  Widget _buildInfoTabs(OperatorDetailModel data) {
+  // 재료 분류
+  final evolveConsumptions = data.consumptions.where((c) => c.type == 'EVOLVE').toList();
+  final skillCommon = data.consumptions.where((c) => c.type == 'SKILL_COMMON').toList();
+  final skillMastery = data.consumptions.where((c) => c.type == 'SKILL_MASTERY').toList();
+  final moduleConsumptions = data.consumptions.where((c) => c.type == 'MODULE').toList();
+
+  return DefaultTabController(
+    length: 3,
+    child: Column(
+      children: [
+        const TabBar(
+          tabs: [Tab(text: 'STATS'), Tab(text: 'SKILLS'), Tab(text: 'MODULES')],
+          indicatorColor: Color(0xFFFFCF00),
+          labelStyle: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2),
+        ),
+        Expanded(
+          child: TabBarView(
+            children: [
+              // 1. Stats 탭 (기존 UI 유지 + 리소스 계산기)
+              SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildDetailHeader(data),
+                    const SizedBox(height: 24),
+                    OperatorStatModule(phases: data.phases, rarity: data.rarity),
+                    const Divider(height: 48),
+                    _buildConsumptionSection('Elite Promotion', evolveConsumptions),
+                  ],
+                ),
+              ),
+              // 2. Skills 탭 (개선됨: 단계별 그룹화)
+              SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildStepConsumption('Common Skill Levels (1 -> 7)', skillCommon, prefix: 'SLV'),
+                    const Divider(height: 40),
+                    _buildStepConsumption('Mastery Upgrades (Skill 1/2/3)', skillMastery, prefix: 'M'),
+                  ],
+                ),
+              ),
+              // 3. Modules 탭 (개선됨: 단계별 그룹화)
+              SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildStepConsumption('Module Integration levels', moduleConsumptions, prefix: 'MOD'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+  // [핵심] 단계별 재료 표시 위젯
+  Widget _buildStepConsumption(String title, List<ConsumptionModel> items, {required String prefix}) {
+    if (items.isEmpty) return const SizedBox.shrink();
+
+    // 1. 레벨별로 데이터 그룹화
+    final Map<int, List<ConsumptionModel>> grouped = {};
+    for (var item in items) {
+      grouped.putIfAbsent(item.level, () => []).add(item);
+    }
+    final sortedLevels = grouped.keys.toList()..sort();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title.toUpperCase(), style: const TextStyle(color: Color(0xFFFFCF00), fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.5)),
+        const SizedBox(height: 16),
+        ...sortedLevels.map((lvl) => Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.03),
+            border: const Border(left: BorderSide(color: Color(0xFFFFCF00), width: 2)),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 왼쪽: 단계 표시 (예: SLV 7)
+              SizedBox(
+                width: 50,
+                child: Column(
+                  children: [
+                    Text(prefix, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                    Text('$lvl', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFFFFCF00))),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 16),
+              // 오른쪽: 해당 단계에 필요한 아이템들
+              Expanded(
+                child: Wrap(
+                  spacing: 12,
+                  runSpacing: 8,
+                  children: grouped[lvl]!.map((item) => _buildItemTile(item)).toList(),
+                ),
+              ),
+            ],
+          ),
+        )),
+      ],
+    );
+  }
+
+  // 아이템 타일 소형화 (그리드 효율성 증대)
+  Widget _buildItemTile(ConsumptionModel item) {
+    return Column(
+      children: [
+        Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            Container(
+              width: 45, height: 45,
+              decoration: BoxDecoration(color: const Color(0xFF2A2A2A), border: Border.all(color: Colors.white12)),
+              child: CachedNetworkImage(imageUrl: item.iconUrl),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              color: Colors.black87,
+              child: Text('x${item.count}', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
+        const SizedBox(height: 2),
+        SizedBox(
+          width: 45,
+          child: Text(item.itemName, textAlign: TextAlign.center, style: const TextStyle(fontSize: 8, color: Colors.grey), maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ],
     );

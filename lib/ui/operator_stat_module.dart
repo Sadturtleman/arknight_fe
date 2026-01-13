@@ -1,18 +1,18 @@
 import 'package:arknight_fe/data/models/operator_model.dart';
 import 'package:arknight_fe/data/module/operator_cost_calculator.dart';
-import 'package:arknight_fe/provider/cost_provider.dart'; // resourceCalculatorProvider가 정의된 곳
+import 'package:arknight_fe/provider/cost_provider.dart'; // resourceCalculatorProvider 정의 파일
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class OperatorStatModule extends ConsumerStatefulWidget {
   final List<PhaseModel> phases;
-  final String rarityString; // "6_star" 또는 "TIER_6" 형식
+  final int rarity;
 
   const OperatorStatModule({
     super.key,
     required this.phases,
-    required this.rarityString,
+    required this.rarity,
   });
 
   @override
@@ -23,11 +23,7 @@ class _OperatorStatModuleState extends ConsumerState<OperatorStatModule> {
   int _selectedPhaseIndex = 0;
   double _currentLevel = 1;
 
-  // 성급 추출 (예: "6_star" -> 6)
-  int get _rarityInt =>
-      int.tryParse(widget.rarityString.replaceAll(RegExp(r'[^0-9]'), '')) ?? 6;
-
-  // 선형 보간 계산 함수 (스탯 성장 공식)
+  // 스탯 선형 보간 계산
   int _calculateStat(int minVal, int maxVal, int minLvl, int maxLvl) {
     if (maxLvl == minLvl) return maxVal;
     double ratio = (_currentLevel - minLvl) / (maxLvl - minLvl);
@@ -36,14 +32,11 @@ class _OperatorStatModuleState extends ConsumerState<OperatorStatModule> {
 
   @override
   Widget build(BuildContext context) {
-    // 1. 계산기 데이터 상태 감시
     final calcAsync = ref.watch(resourceCalculatorProvider);
-    
     final currentPhase = widget.phases[_selectedPhaseIndex];
     final minAttr = currentPhase.attributes.first;
     final maxAttr = currentPhase.attributes.last;
 
-    // 현재 레벨에 따른 실시간 스탯 계산
     final currentHp = _calculateStat(minAttr.maxHp, maxAttr.maxHp, minAttr.level, maxAttr.level);
     final currentAtk = _calculateStat(minAttr.atk, maxAttr.atk, minAttr.level, maxAttr.level);
     final currentDef = _calculateStat(minAttr.def, maxAttr.def, minAttr.level, maxAttr.level);
@@ -51,7 +44,7 @@ class _OperatorStatModuleState extends ConsumerState<OperatorStatModule> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // --- 1. 정예화 단계 선택 (ELITE CHIPS) ---
+        // 1. 정예화 단계 선택 (Elite 0, 1, 2)
         Row(
           children: List.generate(widget.phases.length, (index) => Padding(
             padding: const EdgeInsets.only(right: 8.0),
@@ -76,9 +69,9 @@ class _OperatorStatModuleState extends ConsumerState<OperatorStatModule> {
         ),
         const SizedBox(height: 16),
 
-        // --- 2. 레벨 슬라이더 패널 ---
+        // 2. 레벨 슬라이더
         Container(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.05),
             borderRadius: BorderRadius.circular(4),
@@ -91,7 +84,6 @@ class _OperatorStatModuleState extends ConsumerState<OperatorStatModule> {
                   data: SliderTheme.of(context).copyWith(
                     activeTrackColor: const Color(0xFFFFCF00),
                     thumbColor: const Color(0xFFFFCF00),
-                    overlayColor: const Color(0xFFFFCF00).withOpacity(0.2),
                   ),
                   child: Slider(
                     value: _currentLevel,
@@ -108,25 +100,23 @@ class _OperatorStatModuleState extends ConsumerState<OperatorStatModule> {
         ),
         const SizedBox(height: 16),
 
-        // --- 3. 실시간 누적 리소스 계산 패널 (NEW) ---
+        // 3. 해당 정예화 단계 내 리소스 계산 패널
         calcAsync.when(
           data: (calculator) {
-            // E0 L1부터 현재 선택된 지점까지의 누적 비용 계산
+            // 수정된 로직: 현재 선택된 정예화 단계(_selectedPhaseIndex) 내에서의 비용만 계산
             final result = calculator.calculate(
-              _rarityInt,
-              0, 1, // Start: Elite 0, Level 1
-              _selectedPhaseIndex, _currentLevel.round(), // Target: Current Slider
+              widget.rarity,
+              _selectedPhaseIndex, 1, // 현재 단계의 1레벨부터 시작
+              _selectedPhaseIndex, _currentLevel.round(), // 현재 슬라이더 위치까지
             );
-            return _buildResourcePanel(result);
+            return _buildResourcePanel(result, _selectedPhaseIndex);
           },
-          loading: () => const LinearProgressIndicator(color: Color(0xFFFFCF00), backgroundColor: Colors.white10),
-          error: (e, _) => Text('Cost Data Error: $e', style: const TextStyle(color: Colors.red, fontSize: 10)),
+          loading: () => const LinearProgressIndicator(),
+          error: (e, _) => Text('Data Error: $e'),
         ),
         const SizedBox(height: 24),
 
-        // --- 4. 스탯 디스플레이 그리드 ---
-        const Text("UNIT PERFORMANCE DATA", style: TextStyle(color: Colors.grey, fontSize: 10, letterSpacing: 2)),
-        const SizedBox(height: 8),
+        // 4. 스탯 그리드
         GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -137,7 +127,7 @@ class _OperatorStatModuleState extends ConsumerState<OperatorStatModule> {
             _buildStatItem('ATK', currentAtk),
             _buildStatItem('DEF', currentDef),
             _buildStatItem('COST', maxAttr.cost),
-            _buildStatItem('RES', maxAttr.magicResistance),
+            _buildStatItem('RES', maxAttr.magicResistance.toInt()),
             _buildStatItem('BLOCK', maxAttr.blockCnt),
           ],
         ),
@@ -145,8 +135,7 @@ class _OperatorStatModuleState extends ConsumerState<OperatorStatModule> {
     );
   }
 
-  // 누적 리소스 레이아웃
-  Widget _buildResourcePanel(CalcResult result) {
+  Widget _buildResourcePanel(CalcResult result, int phase) {
     final formatter = NumberFormat('#,###');
     return Container(
       padding: const EdgeInsets.all(16),
@@ -157,7 +146,10 @@ class _OperatorStatModuleState extends ConsumerState<OperatorStatModule> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("TOTAL INVESTMENT REQUIRED", style: TextStyle(color: Color(0xFFFFCF00), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.5)),
+          Text(
+            "PHASE $phase INVESTMENT (Lv.1 -> Lv.${_currentLevel.round()})",
+            style: const TextStyle(color: Color(0xFFFFCF00), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+          ),
           const SizedBox(height: 12),
           Row(
             children: [

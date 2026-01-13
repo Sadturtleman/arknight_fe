@@ -1,0 +1,11 @@
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          # 프로젝트 전체에 snake_case 적용
+          field_rename: snake
+          # 중첩된 리스트/객체 변환 자동 지원
+          explicit_to_json: true
+          # null 안전성 강화
+          checked: true

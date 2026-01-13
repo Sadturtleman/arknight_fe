@@ -65,8 +65,6 @@ class OperatorPaginationNotifier extends Notifier<PaginationState> {
 
   OperatorRepository get repository => ref.read(operatorRepositoryProvider);
 
-  // 선택된 등급을 문자열로 변환 (int 6 -> 'TIER_6')
-  String? get _rarityQuery => state.selectedRarity != null ? 'TIER_${state.selectedRarity}' : null;
 
   void setSelectedRarity(int? rarity) {
     state = state.copyWith(selectedRarity: rarity);
@@ -81,7 +79,7 @@ class OperatorPaginationNotifier extends Notifier<PaginationState> {
       final operators = await repository.getOperators(
         skip: 0, 
         limit: pageSize,
-        rarity: _rarityQuery, // 서버로 쿼리 전달!
+        rarity: state.selectedRarity, // 서버로 쿼리 전달!
       );
       
       final sortedOperators = await compute(_sortOperatorsInIsolate, operators);
@@ -107,7 +105,7 @@ class OperatorPaginationNotifier extends Notifier<PaginationState> {
       final newOperators = await repository.getOperators(
         skip: skip, 
         limit: pageSize,
-        rarity: _rarityQuery, // 동일하게 전달
+        rarity: state.selectedRarity, // 동일하게 전달
       );
       
       final sortedNewOperators = await compute(_sortOperatorsInIsolate, newOperators);
@@ -126,16 +124,21 @@ class OperatorPaginationNotifier extends Notifier<PaginationState> {
 
   List<OperatorModel> _sortOperatorsInIsolate(List<OperatorModel> list) {
     list.sort((a, b) {
-      int aLvl = int.tryParse(a.rarity.split('_').last) ?? 0;
-      int bLvl = int.tryParse(b.rarity.split('_').last) ?? 0;
-      if (aLvl != bLvl) return aLvl.compareTo(bLvl);
+      if (a.rarity != b.rarity) {
+        return b.rarity.compareTo(a.rarity); // 내림차순
+      }
       return a.name.compareTo(b.name);
     });
     return list;
   }
 
   Future<void> refresh() async {
-    state = PaginationState.initial();
+    final currentRarity = state.selectedRarity;
+
+    state = PaginationState.initial().copyWith(
+      selectedRarity: currentRarity,
+    );
+
     await loadInitialPage();
   }
 
@@ -155,7 +158,7 @@ class OperatorPaginationNotifier extends Notifier<PaginationState> {
       final operators = await repository.getOperators(
         skip: skip, 
         limit: pageSize,
-        rarity: _rarityQuery, // Notifier에 정의한 getter 사용
+        rarity: state.selectedRarity, // Notifier에 정의한 getter 사용
       );
       
       // 5. 받아온 데이터 정렬 (오름차순)
