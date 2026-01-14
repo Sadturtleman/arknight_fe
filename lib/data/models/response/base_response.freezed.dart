@@ -283,4 +283,291 @@ as T?,
 
 }
 
+
+/// @nodoc
+mixin _$CostResponse {
+
+ int get level; int get count; ItemResponse get item;
+/// Create a copy of CostResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CostResponseCopyWith<CostResponse> get copyWith => _$CostResponseCopyWithImpl<CostResponse>(this as CostResponse, _$identity);
+
+  /// Serializes this CostResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CostResponse&&(identical(other.level, level) || other.level == level)&&(identical(other.count, count) || other.count == count)&&(identical(other.item, item) || other.item == item));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,level,count,item);
+
+@override
+String toString() {
+  return 'CostResponse(level: $level, count: $count, item: $item)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CostResponseCopyWith<$Res>  {
+  factory $CostResponseCopyWith(CostResponse value, $Res Function(CostResponse) _then) = _$CostResponseCopyWithImpl;
+@useResult
+$Res call({
+ int level, int count, ItemResponse item
+});
+
+
+$ItemResponseCopyWith<$Res> get item;
+
+}
+/// @nodoc
+class _$CostResponseCopyWithImpl<$Res>
+    implements $CostResponseCopyWith<$Res> {
+  _$CostResponseCopyWithImpl(this._self, this._then);
+
+  final CostResponse _self;
+  final $Res Function(CostResponse) _then;
+
+/// Create a copy of CostResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? level = null,Object? count = null,Object? item = null,}) {
+  return _then(_self.copyWith(
+level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
+as int,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
+as int,item: null == item ? _self.item : item // ignore: cast_nullable_to_non_nullable
+as ItemResponse,
+  ));
+}
+/// Create a copy of CostResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ItemResponseCopyWith<$Res> get item {
+  
+  return $ItemResponseCopyWith<$Res>(_self.item, (value) {
+    return _then(_self.copyWith(item: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [CostResponse].
+extension CostResponsePatterns on CostResponse {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CostResponse value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CostResponse() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CostResponse value)  $default,){
+final _that = this;
+switch (_that) {
+case _CostResponse():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CostResponse value)?  $default,){
+final _that = this;
+switch (_that) {
+case _CostResponse() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int level,  int count,  ItemResponse item)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CostResponse() when $default != null:
+return $default(_that.level,_that.count,_that.item);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int level,  int count,  ItemResponse item)  $default,) {final _that = this;
+switch (_that) {
+case _CostResponse():
+return $default(_that.level,_that.count,_that.item);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int level,  int count,  ItemResponse item)?  $default,) {final _that = this;
+switch (_that) {
+case _CostResponse() when $default != null:
+return $default(_that.level,_that.count,_that.item);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _CostResponse implements CostResponse {
+  const _CostResponse({required this.level, required this.count, required this.item});
+  factory _CostResponse.fromJson(Map<String, dynamic> json) => _$CostResponseFromJson(json);
+
+@override final  int level;
+@override final  int count;
+@override final  ItemResponse item;
+
+/// Create a copy of CostResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CostResponseCopyWith<_CostResponse> get copyWith => __$CostResponseCopyWithImpl<_CostResponse>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CostResponseToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CostResponse&&(identical(other.level, level) || other.level == level)&&(identical(other.count, count) || other.count == count)&&(identical(other.item, item) || other.item == item));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,level,count,item);
+
+@override
+String toString() {
+  return 'CostResponse(level: $level, count: $count, item: $item)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$CostResponseCopyWith<$Res> implements $CostResponseCopyWith<$Res> {
+  factory _$CostResponseCopyWith(_CostResponse value, $Res Function(_CostResponse) _then) = __$CostResponseCopyWithImpl;
+@override @useResult
+$Res call({
+ int level, int count, ItemResponse item
+});
+
+
+@override $ItemResponseCopyWith<$Res> get item;
+
+}
+/// @nodoc
+class __$CostResponseCopyWithImpl<$Res>
+    implements _$CostResponseCopyWith<$Res> {
+  __$CostResponseCopyWithImpl(this._self, this._then);
+
+  final _CostResponse _self;
+  final $Res Function(_CostResponse) _then;
+
+/// Create a copy of CostResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? level = null,Object? count = null,Object? item = null,}) {
+  return _then(_CostResponse(
+level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
+as int,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
+as int,item: null == item ? _self.item : item // ignore: cast_nullable_to_non_nullable
+as ItemResponse,
+  ));
+}
+
+/// Create a copy of CostResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ItemResponseCopyWith<$Res> get item {
+  
+  return $ItemResponseCopyWith<$Res>(_self.item, (value) {
+    return _then(_self.copyWith(item: value));
+  });
+}
+}
+
 // dart format on

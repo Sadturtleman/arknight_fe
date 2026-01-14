@@ -41,3 +41,23 @@ Object? _$nullableGenericToJson<T>(
   T? input,
   Object? Function(T value) toJson,
 ) => input == null ? null : toJson(input);
+
+_CostResponse _$CostResponseFromJson(Map<String, dynamic> json) =>
+    $checkedCreate('_CostResponse', json, ($checkedConvert) {
+      final val = _CostResponse(
+        level: $checkedConvert('level', (v) => (v as num).toInt()),
+        count: $checkedConvert('count', (v) => (v as num).toInt()),
+        item: $checkedConvert(
+          'item',
+          (v) => ItemResponse.fromJson(v as Map<String, dynamic>),
+        ),
+      );
+      return val;
+    });
+
+Map<String, dynamic> _$CostResponseToJson(_CostResponse instance) =>
+    <String, dynamic>{
+      'level': instance.level,
+      'count': instance.count,
+      'item': instance.item.toJson(),
+    };

@@ -1,4 +1,7 @@
+import 'package:arknight_fe/data/models/response/base_response.dart';
+import 'package:arknight_fe/data/models/response/module_response.dart';
 import 'package:arknight_fe/data/models/response/range_response.dart';
+import 'package:arknight_fe/data/models/response/skill_response.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'operator_response.freezed.dart';
@@ -51,6 +54,7 @@ abstract class CharacterDetailResponse with _$CharacterDetailResponse {
     required String rarity,
     required ProfessionResponse profession,
     required SubProfessionResponse subProfession,
+    required List<String> tags,
     required List<OperatorStatResponse> stat,
     required String itemUsage,
     required String itemDesc,
@@ -81,4 +85,38 @@ abstract class OperatorStatResponse with _$OperatorStatResponse{
 
   factory OperatorStatResponse.fromJson(Map<String, dynamic> json) => 
     _$OperatorStatResponseFromJson(json);
+}
+
+@freezed
+abstract class OperatorSkillResponse with _$OperatorSkillResponse{
+  const factory OperatorSkillResponse({
+    required List<SkillResponse> skills
+  }) = _OperatorSkillResponse;
+
+  factory OperatorSkillResponse.fromJson(Map<String, dynamic> json) =>
+    _$OperatorSkillResponseFromJson(json);
+}
+
+
+@freezed
+abstract class OperatorSkillCostResponse with _$OperatorSkillCostResponse{
+  const factory OperatorSkillCostResponse({
+    required List<CostResponse> skillCosts
+  }) = _OperatorSkillCostResponse;
+
+  factory OperatorSkillCostResponse.fromJson(Map<String, dynamic> json) =>
+    _$OperatorSkillCostResponseFromJson(json);
+}
+
+@freezed
+abstract class OperatorFullDetailResponse with _$OperatorFullDetailResponse{
+  const factory OperatorFullDetailResponse({
+    required CharacterDetailResponse profile,
+    required OperatorSkillResponse skills,
+    required OperatorSkillCostResponse growth,
+    required ModuleResponse modules
+  }) = _OperatorFullDetailResponse;
+
+  factory OperatorFullDetailResponse.fromJson(Map<String, dynamic> json) =>
+    _$OperatorFullDetailResponseFromJson(json);
 }

@@ -105,6 +105,10 @@ _CharacterDetailResponse _$CharacterDetailResponseFromJson(
         'sub_profession',
         (v) => SubProfessionResponse.fromJson(v as Map<String, dynamic>),
       ),
+      tags: $checkedConvert(
+        'tags',
+        (v) => (v as List<dynamic>).map((e) => e as String).toList(),
+      ),
       stat: $checkedConvert(
         'stat',
         (v) => (v as List<dynamic>)
@@ -139,6 +143,7 @@ Map<String, dynamic> _$CharacterDetailResponseToJson(
   'rarity': instance.rarity,
   'profession': instance.profession.toJson(),
   'sub_profession': instance.subProfession.toJson(),
+  'tags': instance.tags,
   'stat': instance.stat.map((e) => e.toJson()).toList(),
   'item_usage': instance.itemUsage,
   'item_desc': instance.itemDesc,
@@ -202,4 +207,82 @@ Map<String, dynamic> _$OperatorStatResponseToJson(
   'cost': instance.cost,
   'block_cnt': instance.blockCnt,
   'range': instance.range.toJson(),
+};
+
+_OperatorSkillResponse _$OperatorSkillResponseFromJson(
+  Map<String, dynamic> json,
+) => $checkedCreate('_OperatorSkillResponse', json, ($checkedConvert) {
+  final val = _OperatorSkillResponse(
+    skills: $checkedConvert(
+      'skills',
+      (v) => (v as List<dynamic>)
+          .map((e) => SkillResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    ),
+  );
+  return val;
+});
+
+Map<String, dynamic> _$OperatorSkillResponseToJson(
+  _OperatorSkillResponse instance,
+) => <String, dynamic>{
+  'skills': instance.skills.map((e) => e.toJson()).toList(),
+};
+
+_OperatorSkillCostResponse _$OperatorSkillCostResponseFromJson(
+  Map<String, dynamic> json,
+) => $checkedCreate(
+  '_OperatorSkillCostResponse',
+  json,
+  ($checkedConvert) {
+    final val = _OperatorSkillCostResponse(
+      skillCosts: $checkedConvert(
+        'skill_costs',
+        (v) => (v as List<dynamic>)
+            .map((e) => CostResponse.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      ),
+    );
+    return val;
+  },
+  fieldKeyMap: const {'skillCosts': 'skill_costs'},
+);
+
+Map<String, dynamic> _$OperatorSkillCostResponseToJson(
+  _OperatorSkillCostResponse instance,
+) => <String, dynamic>{
+  'skill_costs': instance.skillCosts.map((e) => e.toJson()).toList(),
+};
+
+_OperatorFullDetailResponse _$OperatorFullDetailResponseFromJson(
+  Map<String, dynamic> json,
+) => $checkedCreate('_OperatorFullDetailResponse', json, ($checkedConvert) {
+  final val = _OperatorFullDetailResponse(
+    profile: $checkedConvert(
+      'profile',
+      (v) => CharacterDetailResponse.fromJson(v as Map<String, dynamic>),
+    ),
+    skills: $checkedConvert(
+      'skills',
+      (v) => OperatorSkillResponse.fromJson(v as Map<String, dynamic>),
+    ),
+    growth: $checkedConvert(
+      'growth',
+      (v) => OperatorSkillCostResponse.fromJson(v as Map<String, dynamic>),
+    ),
+    modules: $checkedConvert(
+      'modules',
+      (v) => ModuleResponse.fromJson(v as Map<String, dynamic>),
+    ),
+  );
+  return val;
+});
+
+Map<String, dynamic> _$OperatorFullDetailResponseToJson(
+  _OperatorFullDetailResponse instance,
+) => <String, dynamic>{
+  'profile': instance.profile.toJson(),
+  'skills': instance.skills.toJson(),
+  'growth': instance.growth.toJson(),
+  'modules': instance.modules.toJson(),
 };

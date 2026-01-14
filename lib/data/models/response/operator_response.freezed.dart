@@ -864,7 +864,7 @@ as String,
 /// @nodoc
 mixin _$CharacterDetailResponse {
 
- int get characterId; String get code; String get name; String get rarity; ProfessionResponse get profession; SubProfessionResponse get subProfession; List<OperatorStatResponse> get stat; String get itemUsage; String get itemDesc; String get iconUrl; String get portraitUrl;
+ int get characterId; String get code; String get name; String get rarity; ProfessionResponse get profession; SubProfessionResponse get subProfession; List<String> get tags; List<OperatorStatResponse> get stat; String get itemUsage; String get itemDesc; String get iconUrl; String get portraitUrl;
 /// Create a copy of CharacterDetailResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -877,16 +877,16 @@ $CharacterDetailResponseCopyWith<CharacterDetailResponse> get copyWith => _$Char
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterDetailResponse&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.profession, profession) || other.profession == profession)&&(identical(other.subProfession, subProfession) || other.subProfession == subProfession)&&const DeepCollectionEquality().equals(other.stat, stat)&&(identical(other.itemUsage, itemUsage) || other.itemUsage == itemUsage)&&(identical(other.itemDesc, itemDesc) || other.itemDesc == itemDesc)&&(identical(other.iconUrl, iconUrl) || other.iconUrl == iconUrl)&&(identical(other.portraitUrl, portraitUrl) || other.portraitUrl == portraitUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterDetailResponse&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.profession, profession) || other.profession == profession)&&(identical(other.subProfession, subProfession) || other.subProfession == subProfession)&&const DeepCollectionEquality().equals(other.tags, tags)&&const DeepCollectionEquality().equals(other.stat, stat)&&(identical(other.itemUsage, itemUsage) || other.itemUsage == itemUsage)&&(identical(other.itemDesc, itemDesc) || other.itemDesc == itemDesc)&&(identical(other.iconUrl, iconUrl) || other.iconUrl == iconUrl)&&(identical(other.portraitUrl, portraitUrl) || other.portraitUrl == portraitUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,characterId,code,name,rarity,profession,subProfession,const DeepCollectionEquality().hash(stat),itemUsage,itemDesc,iconUrl,portraitUrl);
+int get hashCode => Object.hash(runtimeType,characterId,code,name,rarity,profession,subProfession,const DeepCollectionEquality().hash(tags),const DeepCollectionEquality().hash(stat),itemUsage,itemDesc,iconUrl,portraitUrl);
 
 @override
 String toString() {
-  return 'CharacterDetailResponse(characterId: $characterId, code: $code, name: $name, rarity: $rarity, profession: $profession, subProfession: $subProfession, stat: $stat, itemUsage: $itemUsage, itemDesc: $itemDesc, iconUrl: $iconUrl, portraitUrl: $portraitUrl)';
+  return 'CharacterDetailResponse(characterId: $characterId, code: $code, name: $name, rarity: $rarity, profession: $profession, subProfession: $subProfession, tags: $tags, stat: $stat, itemUsage: $itemUsage, itemDesc: $itemDesc, iconUrl: $iconUrl, portraitUrl: $portraitUrl)';
 }
 
 
@@ -897,7 +897,7 @@ abstract mixin class $CharacterDetailResponseCopyWith<$Res>  {
   factory $CharacterDetailResponseCopyWith(CharacterDetailResponse value, $Res Function(CharacterDetailResponse) _then) = _$CharacterDetailResponseCopyWithImpl;
 @useResult
 $Res call({
- int characterId, String code, String name, String rarity, ProfessionResponse profession, SubProfessionResponse subProfession, List<OperatorStatResponse> stat, String itemUsage, String itemDesc, String iconUrl, String portraitUrl
+ int characterId, String code, String name, String rarity, ProfessionResponse profession, SubProfessionResponse subProfession, List<String> tags, List<OperatorStatResponse> stat, String itemUsage, String itemDesc, String iconUrl, String portraitUrl
 });
 
 
@@ -914,7 +914,7 @@ class _$CharacterDetailResponseCopyWithImpl<$Res>
 
 /// Create a copy of CharacterDetailResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? characterId = null,Object? code = null,Object? name = null,Object? rarity = null,Object? profession = null,Object? subProfession = null,Object? stat = null,Object? itemUsage = null,Object? itemDesc = null,Object? iconUrl = null,Object? portraitUrl = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? characterId = null,Object? code = null,Object? name = null,Object? rarity = null,Object? profession = null,Object? subProfession = null,Object? tags = null,Object? stat = null,Object? itemUsage = null,Object? itemDesc = null,Object? iconUrl = null,Object? portraitUrl = null,}) {
   return _then(_self.copyWith(
 characterId: null == characterId ? _self.characterId : characterId // ignore: cast_nullable_to_non_nullable
 as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
@@ -922,7 +922,8 @@ as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non
 as String,rarity: null == rarity ? _self.rarity : rarity // ignore: cast_nullable_to_non_nullable
 as String,profession: null == profession ? _self.profession : profession // ignore: cast_nullable_to_non_nullable
 as ProfessionResponse,subProfession: null == subProfession ? _self.subProfession : subProfession // ignore: cast_nullable_to_non_nullable
-as SubProfessionResponse,stat: null == stat ? _self.stat : stat // ignore: cast_nullable_to_non_nullable
+as SubProfessionResponse,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
+as List<String>,stat: null == stat ? _self.stat : stat // ignore: cast_nullable_to_non_nullable
 as List<OperatorStatResponse>,itemUsage: null == itemUsage ? _self.itemUsage : itemUsage // ignore: cast_nullable_to_non_nullable
 as String,itemDesc: null == itemDesc ? _self.itemDesc : itemDesc // ignore: cast_nullable_to_non_nullable
 as String,iconUrl: null == iconUrl ? _self.iconUrl : iconUrl // ignore: cast_nullable_to_non_nullable
@@ -1030,10 +1031,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int characterId,  String code,  String name,  String rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  List<OperatorStatResponse> stat,  String itemUsage,  String itemDesc,  String iconUrl,  String portraitUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int characterId,  String code,  String name,  String rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  List<String> tags,  List<OperatorStatResponse> stat,  String itemUsage,  String itemDesc,  String iconUrl,  String portraitUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CharacterDetailResponse() when $default != null:
-return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profession,_that.subProfession,_that.stat,_that.itemUsage,_that.itemDesc,_that.iconUrl,_that.portraitUrl);case _:
+return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profession,_that.subProfession,_that.tags,_that.stat,_that.itemUsage,_that.itemDesc,_that.iconUrl,_that.portraitUrl);case _:
   return orElse();
 
 }
@@ -1051,10 +1052,10 @@ return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int characterId,  String code,  String name,  String rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  List<OperatorStatResponse> stat,  String itemUsage,  String itemDesc,  String iconUrl,  String portraitUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int characterId,  String code,  String name,  String rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  List<String> tags,  List<OperatorStatResponse> stat,  String itemUsage,  String itemDesc,  String iconUrl,  String portraitUrl)  $default,) {final _that = this;
 switch (_that) {
 case _CharacterDetailResponse():
-return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profession,_that.subProfession,_that.stat,_that.itemUsage,_that.itemDesc,_that.iconUrl,_that.portraitUrl);case _:
+return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profession,_that.subProfession,_that.tags,_that.stat,_that.itemUsage,_that.itemDesc,_that.iconUrl,_that.portraitUrl);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1071,10 +1072,10 @@ return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int characterId,  String code,  String name,  String rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  List<OperatorStatResponse> stat,  String itemUsage,  String itemDesc,  String iconUrl,  String portraitUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int characterId,  String code,  String name,  String rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  List<String> tags,  List<OperatorStatResponse> stat,  String itemUsage,  String itemDesc,  String iconUrl,  String portraitUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _CharacterDetailResponse() when $default != null:
-return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profession,_that.subProfession,_that.stat,_that.itemUsage,_that.itemDesc,_that.iconUrl,_that.portraitUrl);case _:
+return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profession,_that.subProfession,_that.tags,_that.stat,_that.itemUsage,_that.itemDesc,_that.iconUrl,_that.portraitUrl);case _:
   return null;
 
 }
@@ -1086,7 +1087,7 @@ return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profe
 @JsonSerializable()
 
 class _CharacterDetailResponse implements CharacterDetailResponse {
-  const _CharacterDetailResponse({required this.characterId, required this.code, required this.name, required this.rarity, required this.profession, required this.subProfession, required final  List<OperatorStatResponse> stat, required this.itemUsage, required this.itemDesc, required this.iconUrl, required this.portraitUrl}): _stat = stat;
+  const _CharacterDetailResponse({required this.characterId, required this.code, required this.name, required this.rarity, required this.profession, required this.subProfession, required final  List<String> tags, required final  List<OperatorStatResponse> stat, required this.itemUsage, required this.itemDesc, required this.iconUrl, required this.portraitUrl}): _tags = tags,_stat = stat;
   factory _CharacterDetailResponse.fromJson(Map<String, dynamic> json) => _$CharacterDetailResponseFromJson(json);
 
 @override final  int characterId;
@@ -1095,6 +1096,13 @@ class _CharacterDetailResponse implements CharacterDetailResponse {
 @override final  String rarity;
 @override final  ProfessionResponse profession;
 @override final  SubProfessionResponse subProfession;
+ final  List<String> _tags;
+@override List<String> get tags {
+  if (_tags is EqualUnmodifiableListView) return _tags;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_tags);
+}
+
  final  List<OperatorStatResponse> _stat;
 @override List<OperatorStatResponse> get stat {
   if (_stat is EqualUnmodifiableListView) return _stat;
@@ -1120,16 +1128,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterDetailResponse&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.profession, profession) || other.profession == profession)&&(identical(other.subProfession, subProfession) || other.subProfession == subProfession)&&const DeepCollectionEquality().equals(other._stat, _stat)&&(identical(other.itemUsage, itemUsage) || other.itemUsage == itemUsage)&&(identical(other.itemDesc, itemDesc) || other.itemDesc == itemDesc)&&(identical(other.iconUrl, iconUrl) || other.iconUrl == iconUrl)&&(identical(other.portraitUrl, portraitUrl) || other.portraitUrl == portraitUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterDetailResponse&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.profession, profession) || other.profession == profession)&&(identical(other.subProfession, subProfession) || other.subProfession == subProfession)&&const DeepCollectionEquality().equals(other._tags, _tags)&&const DeepCollectionEquality().equals(other._stat, _stat)&&(identical(other.itemUsage, itemUsage) || other.itemUsage == itemUsage)&&(identical(other.itemDesc, itemDesc) || other.itemDesc == itemDesc)&&(identical(other.iconUrl, iconUrl) || other.iconUrl == iconUrl)&&(identical(other.portraitUrl, portraitUrl) || other.portraitUrl == portraitUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,characterId,code,name,rarity,profession,subProfession,const DeepCollectionEquality().hash(_stat),itemUsage,itemDesc,iconUrl,portraitUrl);
+int get hashCode => Object.hash(runtimeType,characterId,code,name,rarity,profession,subProfession,const DeepCollectionEquality().hash(_tags),const DeepCollectionEquality().hash(_stat),itemUsage,itemDesc,iconUrl,portraitUrl);
 
 @override
 String toString() {
-  return 'CharacterDetailResponse(characterId: $characterId, code: $code, name: $name, rarity: $rarity, profession: $profession, subProfession: $subProfession, stat: $stat, itemUsage: $itemUsage, itemDesc: $itemDesc, iconUrl: $iconUrl, portraitUrl: $portraitUrl)';
+  return 'CharacterDetailResponse(characterId: $characterId, code: $code, name: $name, rarity: $rarity, profession: $profession, subProfession: $subProfession, tags: $tags, stat: $stat, itemUsage: $itemUsage, itemDesc: $itemDesc, iconUrl: $iconUrl, portraitUrl: $portraitUrl)';
 }
 
 
@@ -1140,7 +1148,7 @@ abstract mixin class _$CharacterDetailResponseCopyWith<$Res> implements $Charact
   factory _$CharacterDetailResponseCopyWith(_CharacterDetailResponse value, $Res Function(_CharacterDetailResponse) _then) = __$CharacterDetailResponseCopyWithImpl;
 @override @useResult
 $Res call({
- int characterId, String code, String name, String rarity, ProfessionResponse profession, SubProfessionResponse subProfession, List<OperatorStatResponse> stat, String itemUsage, String itemDesc, String iconUrl, String portraitUrl
+ int characterId, String code, String name, String rarity, ProfessionResponse profession, SubProfessionResponse subProfession, List<String> tags, List<OperatorStatResponse> stat, String itemUsage, String itemDesc, String iconUrl, String portraitUrl
 });
 
 
@@ -1157,7 +1165,7 @@ class __$CharacterDetailResponseCopyWithImpl<$Res>
 
 /// Create a copy of CharacterDetailResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? characterId = null,Object? code = null,Object? name = null,Object? rarity = null,Object? profession = null,Object? subProfession = null,Object? stat = null,Object? itemUsage = null,Object? itemDesc = null,Object? iconUrl = null,Object? portraitUrl = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? characterId = null,Object? code = null,Object? name = null,Object? rarity = null,Object? profession = null,Object? subProfession = null,Object? tags = null,Object? stat = null,Object? itemUsage = null,Object? itemDesc = null,Object? iconUrl = null,Object? portraitUrl = null,}) {
   return _then(_CharacterDetailResponse(
 characterId: null == characterId ? _self.characterId : characterId // ignore: cast_nullable_to_non_nullable
 as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
@@ -1165,7 +1173,8 @@ as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non
 as String,rarity: null == rarity ? _self.rarity : rarity // ignore: cast_nullable_to_non_nullable
 as String,profession: null == profession ? _self.profession : profession // ignore: cast_nullable_to_non_nullable
 as ProfessionResponse,subProfession: null == subProfession ? _self.subProfession : subProfession // ignore: cast_nullable_to_non_nullable
-as SubProfessionResponse,stat: null == stat ? _self._stat : stat // ignore: cast_nullable_to_non_nullable
+as SubProfessionResponse,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
+as List<String>,stat: null == stat ? _self._stat : stat // ignore: cast_nullable_to_non_nullable
 as List<OperatorStatResponse>,itemUsage: null == itemUsage ? _self.itemUsage : itemUsage // ignore: cast_nullable_to_non_nullable
 as String,itemDesc: null == itemDesc ? _self.itemDesc : itemDesc // ignore: cast_nullable_to_non_nullable
 as String,iconUrl: null == iconUrl ? _self.iconUrl : iconUrl // ignore: cast_nullable_to_non_nullable
@@ -1505,6 +1514,888 @@ $RangeResponseCopyWith<$Res> get range {
   
   return $RangeResponseCopyWith<$Res>(_self.range, (value) {
     return _then(_self.copyWith(range: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$OperatorSkillResponse {
+
+ List<SkillResponse> get skills;
+/// Create a copy of OperatorSkillResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$OperatorSkillResponseCopyWith<OperatorSkillResponse> get copyWith => _$OperatorSkillResponseCopyWithImpl<OperatorSkillResponse>(this as OperatorSkillResponse, _$identity);
+
+  /// Serializes this OperatorSkillResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OperatorSkillResponse&&const DeepCollectionEquality().equals(other.skills, skills));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(skills));
+
+@override
+String toString() {
+  return 'OperatorSkillResponse(skills: $skills)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $OperatorSkillResponseCopyWith<$Res>  {
+  factory $OperatorSkillResponseCopyWith(OperatorSkillResponse value, $Res Function(OperatorSkillResponse) _then) = _$OperatorSkillResponseCopyWithImpl;
+@useResult
+$Res call({
+ List<SkillResponse> skills
+});
+
+
+
+
+}
+/// @nodoc
+class _$OperatorSkillResponseCopyWithImpl<$Res>
+    implements $OperatorSkillResponseCopyWith<$Res> {
+  _$OperatorSkillResponseCopyWithImpl(this._self, this._then);
+
+  final OperatorSkillResponse _self;
+  final $Res Function(OperatorSkillResponse) _then;
+
+/// Create a copy of OperatorSkillResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? skills = null,}) {
+  return _then(_self.copyWith(
+skills: null == skills ? _self.skills : skills // ignore: cast_nullable_to_non_nullable
+as List<SkillResponse>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [OperatorSkillResponse].
+extension OperatorSkillResponsePatterns on OperatorSkillResponse {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _OperatorSkillResponse value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _OperatorSkillResponse() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _OperatorSkillResponse value)  $default,){
+final _that = this;
+switch (_that) {
+case _OperatorSkillResponse():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _OperatorSkillResponse value)?  $default,){
+final _that = this;
+switch (_that) {
+case _OperatorSkillResponse() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<SkillResponse> skills)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _OperatorSkillResponse() when $default != null:
+return $default(_that.skills);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<SkillResponse> skills)  $default,) {final _that = this;
+switch (_that) {
+case _OperatorSkillResponse():
+return $default(_that.skills);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<SkillResponse> skills)?  $default,) {final _that = this;
+switch (_that) {
+case _OperatorSkillResponse() when $default != null:
+return $default(_that.skills);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _OperatorSkillResponse implements OperatorSkillResponse {
+  const _OperatorSkillResponse({required final  List<SkillResponse> skills}): _skills = skills;
+  factory _OperatorSkillResponse.fromJson(Map<String, dynamic> json) => _$OperatorSkillResponseFromJson(json);
+
+ final  List<SkillResponse> _skills;
+@override List<SkillResponse> get skills {
+  if (_skills is EqualUnmodifiableListView) return _skills;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_skills);
+}
+
+
+/// Create a copy of OperatorSkillResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$OperatorSkillResponseCopyWith<_OperatorSkillResponse> get copyWith => __$OperatorSkillResponseCopyWithImpl<_OperatorSkillResponse>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$OperatorSkillResponseToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OperatorSkillResponse&&const DeepCollectionEquality().equals(other._skills, _skills));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_skills));
+
+@override
+String toString() {
+  return 'OperatorSkillResponse(skills: $skills)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$OperatorSkillResponseCopyWith<$Res> implements $OperatorSkillResponseCopyWith<$Res> {
+  factory _$OperatorSkillResponseCopyWith(_OperatorSkillResponse value, $Res Function(_OperatorSkillResponse) _then) = __$OperatorSkillResponseCopyWithImpl;
+@override @useResult
+$Res call({
+ List<SkillResponse> skills
+});
+
+
+
+
+}
+/// @nodoc
+class __$OperatorSkillResponseCopyWithImpl<$Res>
+    implements _$OperatorSkillResponseCopyWith<$Res> {
+  __$OperatorSkillResponseCopyWithImpl(this._self, this._then);
+
+  final _OperatorSkillResponse _self;
+  final $Res Function(_OperatorSkillResponse) _then;
+
+/// Create a copy of OperatorSkillResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? skills = null,}) {
+  return _then(_OperatorSkillResponse(
+skills: null == skills ? _self._skills : skills // ignore: cast_nullable_to_non_nullable
+as List<SkillResponse>,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$OperatorSkillCostResponse {
+
+ List<CostResponse> get skillCosts;
+/// Create a copy of OperatorSkillCostResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$OperatorSkillCostResponseCopyWith<OperatorSkillCostResponse> get copyWith => _$OperatorSkillCostResponseCopyWithImpl<OperatorSkillCostResponse>(this as OperatorSkillCostResponse, _$identity);
+
+  /// Serializes this OperatorSkillCostResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OperatorSkillCostResponse&&const DeepCollectionEquality().equals(other.skillCosts, skillCosts));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(skillCosts));
+
+@override
+String toString() {
+  return 'OperatorSkillCostResponse(skillCosts: $skillCosts)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $OperatorSkillCostResponseCopyWith<$Res>  {
+  factory $OperatorSkillCostResponseCopyWith(OperatorSkillCostResponse value, $Res Function(OperatorSkillCostResponse) _then) = _$OperatorSkillCostResponseCopyWithImpl;
+@useResult
+$Res call({
+ List<CostResponse> skillCosts
+});
+
+
+
+
+}
+/// @nodoc
+class _$OperatorSkillCostResponseCopyWithImpl<$Res>
+    implements $OperatorSkillCostResponseCopyWith<$Res> {
+  _$OperatorSkillCostResponseCopyWithImpl(this._self, this._then);
+
+  final OperatorSkillCostResponse _self;
+  final $Res Function(OperatorSkillCostResponse) _then;
+
+/// Create a copy of OperatorSkillCostResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? skillCosts = null,}) {
+  return _then(_self.copyWith(
+skillCosts: null == skillCosts ? _self.skillCosts : skillCosts // ignore: cast_nullable_to_non_nullable
+as List<CostResponse>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [OperatorSkillCostResponse].
+extension OperatorSkillCostResponsePatterns on OperatorSkillCostResponse {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _OperatorSkillCostResponse value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _OperatorSkillCostResponse() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _OperatorSkillCostResponse value)  $default,){
+final _that = this;
+switch (_that) {
+case _OperatorSkillCostResponse():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _OperatorSkillCostResponse value)?  $default,){
+final _that = this;
+switch (_that) {
+case _OperatorSkillCostResponse() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<CostResponse> skillCosts)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _OperatorSkillCostResponse() when $default != null:
+return $default(_that.skillCosts);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<CostResponse> skillCosts)  $default,) {final _that = this;
+switch (_that) {
+case _OperatorSkillCostResponse():
+return $default(_that.skillCosts);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<CostResponse> skillCosts)?  $default,) {final _that = this;
+switch (_that) {
+case _OperatorSkillCostResponse() when $default != null:
+return $default(_that.skillCosts);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _OperatorSkillCostResponse implements OperatorSkillCostResponse {
+  const _OperatorSkillCostResponse({required final  List<CostResponse> skillCosts}): _skillCosts = skillCosts;
+  factory _OperatorSkillCostResponse.fromJson(Map<String, dynamic> json) => _$OperatorSkillCostResponseFromJson(json);
+
+ final  List<CostResponse> _skillCosts;
+@override List<CostResponse> get skillCosts {
+  if (_skillCosts is EqualUnmodifiableListView) return _skillCosts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_skillCosts);
+}
+
+
+/// Create a copy of OperatorSkillCostResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$OperatorSkillCostResponseCopyWith<_OperatorSkillCostResponse> get copyWith => __$OperatorSkillCostResponseCopyWithImpl<_OperatorSkillCostResponse>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$OperatorSkillCostResponseToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OperatorSkillCostResponse&&const DeepCollectionEquality().equals(other._skillCosts, _skillCosts));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_skillCosts));
+
+@override
+String toString() {
+  return 'OperatorSkillCostResponse(skillCosts: $skillCosts)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$OperatorSkillCostResponseCopyWith<$Res> implements $OperatorSkillCostResponseCopyWith<$Res> {
+  factory _$OperatorSkillCostResponseCopyWith(_OperatorSkillCostResponse value, $Res Function(_OperatorSkillCostResponse) _then) = __$OperatorSkillCostResponseCopyWithImpl;
+@override @useResult
+$Res call({
+ List<CostResponse> skillCosts
+});
+
+
+
+
+}
+/// @nodoc
+class __$OperatorSkillCostResponseCopyWithImpl<$Res>
+    implements _$OperatorSkillCostResponseCopyWith<$Res> {
+  __$OperatorSkillCostResponseCopyWithImpl(this._self, this._then);
+
+  final _OperatorSkillCostResponse _self;
+  final $Res Function(_OperatorSkillCostResponse) _then;
+
+/// Create a copy of OperatorSkillCostResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? skillCosts = null,}) {
+  return _then(_OperatorSkillCostResponse(
+skillCosts: null == skillCosts ? _self._skillCosts : skillCosts // ignore: cast_nullable_to_non_nullable
+as List<CostResponse>,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$OperatorFullDetailResponse {
+
+ CharacterDetailResponse get profile; OperatorSkillResponse get skills; OperatorSkillCostResponse get growth; ModuleResponse get modules;
+/// Create a copy of OperatorFullDetailResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$OperatorFullDetailResponseCopyWith<OperatorFullDetailResponse> get copyWith => _$OperatorFullDetailResponseCopyWithImpl<OperatorFullDetailResponse>(this as OperatorFullDetailResponse, _$identity);
+
+  /// Serializes this OperatorFullDetailResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OperatorFullDetailResponse&&(identical(other.profile, profile) || other.profile == profile)&&(identical(other.skills, skills) || other.skills == skills)&&(identical(other.growth, growth) || other.growth == growth)&&(identical(other.modules, modules) || other.modules == modules));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,profile,skills,growth,modules);
+
+@override
+String toString() {
+  return 'OperatorFullDetailResponse(profile: $profile, skills: $skills, growth: $growth, modules: $modules)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $OperatorFullDetailResponseCopyWith<$Res>  {
+  factory $OperatorFullDetailResponseCopyWith(OperatorFullDetailResponse value, $Res Function(OperatorFullDetailResponse) _then) = _$OperatorFullDetailResponseCopyWithImpl;
+@useResult
+$Res call({
+ CharacterDetailResponse profile, OperatorSkillResponse skills, OperatorSkillCostResponse growth, ModuleResponse modules
+});
+
+
+$CharacterDetailResponseCopyWith<$Res> get profile;$OperatorSkillResponseCopyWith<$Res> get skills;$OperatorSkillCostResponseCopyWith<$Res> get growth;$ModuleResponseCopyWith<$Res> get modules;
+
+}
+/// @nodoc
+class _$OperatorFullDetailResponseCopyWithImpl<$Res>
+    implements $OperatorFullDetailResponseCopyWith<$Res> {
+  _$OperatorFullDetailResponseCopyWithImpl(this._self, this._then);
+
+  final OperatorFullDetailResponse _self;
+  final $Res Function(OperatorFullDetailResponse) _then;
+
+/// Create a copy of OperatorFullDetailResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? profile = null,Object? skills = null,Object? growth = null,Object? modules = null,}) {
+  return _then(_self.copyWith(
+profile: null == profile ? _self.profile : profile // ignore: cast_nullable_to_non_nullable
+as CharacterDetailResponse,skills: null == skills ? _self.skills : skills // ignore: cast_nullable_to_non_nullable
+as OperatorSkillResponse,growth: null == growth ? _self.growth : growth // ignore: cast_nullable_to_non_nullable
+as OperatorSkillCostResponse,modules: null == modules ? _self.modules : modules // ignore: cast_nullable_to_non_nullable
+as ModuleResponse,
+  ));
+}
+/// Create a copy of OperatorFullDetailResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CharacterDetailResponseCopyWith<$Res> get profile {
+  
+  return $CharacterDetailResponseCopyWith<$Res>(_self.profile, (value) {
+    return _then(_self.copyWith(profile: value));
+  });
+}/// Create a copy of OperatorFullDetailResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$OperatorSkillResponseCopyWith<$Res> get skills {
+  
+  return $OperatorSkillResponseCopyWith<$Res>(_self.skills, (value) {
+    return _then(_self.copyWith(skills: value));
+  });
+}/// Create a copy of OperatorFullDetailResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$OperatorSkillCostResponseCopyWith<$Res> get growth {
+  
+  return $OperatorSkillCostResponseCopyWith<$Res>(_self.growth, (value) {
+    return _then(_self.copyWith(growth: value));
+  });
+}/// Create a copy of OperatorFullDetailResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ModuleResponseCopyWith<$Res> get modules {
+  
+  return $ModuleResponseCopyWith<$Res>(_self.modules, (value) {
+    return _then(_self.copyWith(modules: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [OperatorFullDetailResponse].
+extension OperatorFullDetailResponsePatterns on OperatorFullDetailResponse {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _OperatorFullDetailResponse value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _OperatorFullDetailResponse() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _OperatorFullDetailResponse value)  $default,){
+final _that = this;
+switch (_that) {
+case _OperatorFullDetailResponse():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _OperatorFullDetailResponse value)?  $default,){
+final _that = this;
+switch (_that) {
+case _OperatorFullDetailResponse() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CharacterDetailResponse profile,  OperatorSkillResponse skills,  OperatorSkillCostResponse growth,  ModuleResponse modules)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _OperatorFullDetailResponse() when $default != null:
+return $default(_that.profile,_that.skills,_that.growth,_that.modules);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CharacterDetailResponse profile,  OperatorSkillResponse skills,  OperatorSkillCostResponse growth,  ModuleResponse modules)  $default,) {final _that = this;
+switch (_that) {
+case _OperatorFullDetailResponse():
+return $default(_that.profile,_that.skills,_that.growth,_that.modules);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CharacterDetailResponse profile,  OperatorSkillResponse skills,  OperatorSkillCostResponse growth,  ModuleResponse modules)?  $default,) {final _that = this;
+switch (_that) {
+case _OperatorFullDetailResponse() when $default != null:
+return $default(_that.profile,_that.skills,_that.growth,_that.modules);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _OperatorFullDetailResponse implements OperatorFullDetailResponse {
+  const _OperatorFullDetailResponse({required this.profile, required this.skills, required this.growth, required this.modules});
+  factory _OperatorFullDetailResponse.fromJson(Map<String, dynamic> json) => _$OperatorFullDetailResponseFromJson(json);
+
+@override final  CharacterDetailResponse profile;
+@override final  OperatorSkillResponse skills;
+@override final  OperatorSkillCostResponse growth;
+@override final  ModuleResponse modules;
+
+/// Create a copy of OperatorFullDetailResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$OperatorFullDetailResponseCopyWith<_OperatorFullDetailResponse> get copyWith => __$OperatorFullDetailResponseCopyWithImpl<_OperatorFullDetailResponse>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$OperatorFullDetailResponseToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OperatorFullDetailResponse&&(identical(other.profile, profile) || other.profile == profile)&&(identical(other.skills, skills) || other.skills == skills)&&(identical(other.growth, growth) || other.growth == growth)&&(identical(other.modules, modules) || other.modules == modules));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,profile,skills,growth,modules);
+
+@override
+String toString() {
+  return 'OperatorFullDetailResponse(profile: $profile, skills: $skills, growth: $growth, modules: $modules)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$OperatorFullDetailResponseCopyWith<$Res> implements $OperatorFullDetailResponseCopyWith<$Res> {
+  factory _$OperatorFullDetailResponseCopyWith(_OperatorFullDetailResponse value, $Res Function(_OperatorFullDetailResponse) _then) = __$OperatorFullDetailResponseCopyWithImpl;
+@override @useResult
+$Res call({
+ CharacterDetailResponse profile, OperatorSkillResponse skills, OperatorSkillCostResponse growth, ModuleResponse modules
+});
+
+
+@override $CharacterDetailResponseCopyWith<$Res> get profile;@override $OperatorSkillResponseCopyWith<$Res> get skills;@override $OperatorSkillCostResponseCopyWith<$Res> get growth;@override $ModuleResponseCopyWith<$Res> get modules;
+
+}
+/// @nodoc
+class __$OperatorFullDetailResponseCopyWithImpl<$Res>
+    implements _$OperatorFullDetailResponseCopyWith<$Res> {
+  __$OperatorFullDetailResponseCopyWithImpl(this._self, this._then);
+
+  final _OperatorFullDetailResponse _self;
+  final $Res Function(_OperatorFullDetailResponse) _then;
+
+/// Create a copy of OperatorFullDetailResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? profile = null,Object? skills = null,Object? growth = null,Object? modules = null,}) {
+  return _then(_OperatorFullDetailResponse(
+profile: null == profile ? _self.profile : profile // ignore: cast_nullable_to_non_nullable
+as CharacterDetailResponse,skills: null == skills ? _self.skills : skills // ignore: cast_nullable_to_non_nullable
+as OperatorSkillResponse,growth: null == growth ? _self.growth : growth // ignore: cast_nullable_to_non_nullable
+as OperatorSkillCostResponse,modules: null == modules ? _self.modules : modules // ignore: cast_nullable_to_non_nullable
+as ModuleResponse,
+  ));
+}
+
+/// Create a copy of OperatorFullDetailResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CharacterDetailResponseCopyWith<$Res> get profile {
+  
+  return $CharacterDetailResponseCopyWith<$Res>(_self.profile, (value) {
+    return _then(_self.copyWith(profile: value));
+  });
+}/// Create a copy of OperatorFullDetailResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$OperatorSkillResponseCopyWith<$Res> get skills {
+  
+  return $OperatorSkillResponseCopyWith<$Res>(_self.skills, (value) {
+    return _then(_self.copyWith(skills: value));
+  });
+}/// Create a copy of OperatorFullDetailResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$OperatorSkillCostResponseCopyWith<$Res> get growth {
+  
+  return $OperatorSkillCostResponseCopyWith<$Res>(_self.growth, (value) {
+    return _then(_self.copyWith(growth: value));
+  });
+}/// Create a copy of OperatorFullDetailResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ModuleResponseCopyWith<$Res> get modules {
+  
+  return $ModuleResponseCopyWith<$Res>(_self.modules, (value) {
+    return _then(_self.copyWith(modules: value));
   });
 }
 }
