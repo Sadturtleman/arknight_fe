@@ -19,7 +19,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // 스크롤 이벤트로 무한 스크롤 구현 (90% 지점 도달 시 다음 페이지)
+    // 무한 스크롤: 90% 지점 도달 시 다음 데이터 로드
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent * 0.9) {
@@ -40,7 +40,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Arknights DB'),
+        title: const Text('ARKNIGHTS TERMINAL'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -51,24 +51,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       body: Column(
         children: [
-          // 1. 등급 필터 섹션 (Horizontal Scroll)
+          // 1. 전술 필터 바
           _buildFilterBar(state),
-
-          // 2. 현재 상태 정보 표시
-          if (state.operators.isNotEmpty) _buildInfoBar(state),
-
-          // 3. 메인 콘텐츠 (그리드)
+          
+          // 2. 메인 그리드 콘텐츠 (무한 스크롤 적용)
           Expanded(
             child: _buildContent(state),
           ),
-
-          // 4. 하단 페이지 컨트롤
-          _buildPaginationControls(state),
+          
+          // [수정] 무한 스크롤이므로 하단 페이지 컨트롤러(네비게이션 바) 제거
         ],
       ),
     );
   }
 
+  // 필터 바 디자인 유지
   Widget _buildFilterBar(PaginationState state) {
     return Container(
       height: 50,
@@ -112,100 +109,45 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget _buildInfoBar(PaginationState state) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      color: Colors.grey[100],
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Page ${state.currentPage} | Filter: ${state.selectedRarity?.toString() ?? "All"} | Total: ${state.operators.length}',
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildContent(PaginationState state) {
+    // 반응형 그리드 개수 계산
+    final double width = MediaQuery.of(context).size.width;
+    int crossAxisCount = 2; // 모바일
+    if (width > 1200) {crossAxisCount = 5;}
+    else if (width > 800) {crossAxisCount = 4;}
+    else if (width > 600) {crossAxisCount = 3;}
+
     if (state.error != null) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Error: ${state.error}'),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () => ref.read(operatorPaginationProvider.notifier).refresh(),
-              child: const Text('Retry'),
-            ),
-          ],
-        ),
-      );
+      return Center(child: Text('Error: ${state.error}'));
     }
 
     if (state.isLoading && state.operators.isEmpty) {
       return GridView.builder(
-        itemBuilder: (context, index) => ShimmerLoadingCard(),
-        itemCount: 6,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+        padding: const EdgeInsets.all(16),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
           childAspectRatio: 0.75,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
         ),
-        
+        itemCount: 10,
+        itemBuilder: (context, index) => const ShimmerLoadingCard(),
       );
-    }
-
-    if (state.operators.isEmpty) {
-      return const Center(child: Text('No operators found.'));
     }
 
     return GridView.builder(
       controller: _scrollController,
       padding: const EdgeInsets.all(16),
-      cacheExtent: 1000,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, // 가독성을 위해 개수를 줄이고 카드를 키움
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
         childAspectRatio: 0.75,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
       ),
       itemCount: state.operators.length,
       itemBuilder: (context, index) {
-        return RepaintBoundary(
-          child: _OperatorCard(op: state.operators[index]),
-        );
+        return _OperatorCard(op: state.operators[index]);
       },
-    );
-  }
-
-  Widget _buildPaginationControls(PaginationState state) {
-    if (state.operators.isEmpty) return const SizedBox.shrink();
-
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      decoration: BoxDecoration(color: Colors.white, border: Border(top: BorderSide(color: Colors.grey[300]!))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back_ios, size: 18),
-            onPressed: state.currentPage > 1 && !state.isLoading
-                ? () => ref.read(operatorPaginationProvider.notifier).loadPage(state.currentPage - 1)
-                : null,
-          ),
-          Text('Page ${state.currentPage}', style: const TextStyle(fontWeight: FontWeight.bold)),
-          IconButton(
-            icon: const Icon(Icons.arrow_forward_ios, size: 18),
-            onPressed: state.hasMore && !state.isLoading
-                ? () => ref.read(operatorPaginationProvider.notifier).loadPage(state.currentPage + 1)
-                : null,
-          ),
-        ],
-      ),
     );
   }
 }
@@ -216,9 +158,12 @@ class _OperatorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // rarity 문자열에서 숫자 추출 (예: "TIER_6" -> 6)
+
     return InkWell(
       onTap: () => context.pushNamed('detail', pathParameters: {'name': op.name}),
       child: Container(
+        clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           color: const Color(0xFF1E1E1E),
           border: Border(
@@ -227,28 +172,29 @@ class _OperatorCard extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            // 배경 오퍼레이터 이미지 (Portrait)
+            // [추가] 고성능 오퍼레이터(5~6성) 배경 애니메이션 효과
+            Positioned.fill(
+              child: RarityBackground(rarity: op.rarity),
+            ),
+            
+            // 오퍼레이터 이미지
             Positioned.fill(
               child: ShaderMask(
-                shaderCallback: (rect) {
-                  return LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
-                  ).createShader(rect);
-                },
+                shaderCallback: (rect) => LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
+                ).createShader(rect),
                 blendMode: BlendMode.dstIn,
                 child: CachedNetworkImage(
-                  imageUrl: op.skins.first.portraitUrl ?? '',
+                  imageUrl: op.skins.isNotEmpty ? (op.skins.first.portraitUrl ?? '') : '',
                   fit: BoxFit.cover,
-                  memCacheHeight: 400,
-                  memCacheWidth: 300,
-                  placeholder: (context, url) => Container(color: Colors.grey[800]),
-                  errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red)
+                  errorWidget: (context, url, error) => const Icon(Icons.person, color: Colors.white10),
                 ),
               ),
             ),
-            // 하단 정보 레이어
+            
+            // 하단 정보 (이름 및 직업)
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
@@ -259,11 +205,7 @@ class _OperatorCard extends StatelessWidget {
                   children: [
                     Text(
                       op.name.toUpperCase(),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
-                      ),
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
                     ),
                     const SizedBox(height: 4),
                     Container(
@@ -284,14 +226,14 @@ class _OperatorCard extends StatelessWidget {
     );
   }
 
-  Color _getRarityColor(String rarity) {
-    if (rarity.contains('6')) return const Color(0xFFFF7F27); // 6성: 오렌지
-    if (rarity.contains('5')) return const Color(0xFFFDE910); // 5성: 옐로우
+  Color _getRarityColor(int rarity) {
+    if (rarity == 6) return const Color(0xFFFF7F27);
+    if (rarity == 5) return const Color(0xFFFDE910);
     return Colors.white24;
   }
 }
 
-// _OperatorCard 내부에 추가할 배경 애니메이션 위젯
+// 펄스 애니메이션 배경 위젯
 class RarityBackground extends StatefulWidget {
   final int rarity;
   const RarityBackground({super.key, required this.rarity});
@@ -309,12 +251,12 @@ class _RarityBackgroundState extends State<RarityBackground> with SingleTickerPr
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
-    )..repeat(reverse: true); // 펄스 효과를 위해 반복
+    )..repeat(reverse: true);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.rarity < 5) return const SizedBox.shrink(); // 5성 미만은 이펙트 제외
+    if (widget.rarity < 5) return const SizedBox.shrink();
 
     final color = widget.rarity == 6 ? const Color(0xFFFF7F27) : const Color(0xFFFDE910);
 
@@ -324,10 +266,10 @@ class _RarityBackgroundState extends State<RarityBackground> with SingleTickerPr
         return Container(
           decoration: BoxDecoration(
             gradient: RadialGradient(
-              center: const Alignment(-0.5, -0.5),
+              center: const Alignment(-0.5, -0.8),
               radius: 1.5,
               colors: [
-                color.withOpacity(0.15 * _controller.value), // 농도 변화
+                color.withOpacity(0.12 * _controller.value),
                 Colors.transparent,
               ],
             ),
@@ -344,31 +286,28 @@ class _RarityBackgroundState extends State<RarityBackground> with SingleTickerPr
   }
 }
 
+// 로딩용 스켈레톤 위젯 (Shimmer)
 class ShimmerLoadingCard extends StatelessWidget {
   const ShimmerLoadingCard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[900]!, // 어두운 배경색
-      highlightColor: Colors.grey[800]!, // 빛나는 하이라이트색
+      baseColor: Colors.grey[900]!,
+      highlightColor: Colors.grey[800]!,
       child: Container(
-        decoration: BoxDecoration(
-          color: Colors.black, // Shimmer 자식은 배경색이 있어야 함
-          borderRadius: BorderRadius.circular(4),
-        ),
+        decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(4)),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Expanded(child: SizedBox.expand()), // 이미지 자리
+            const Expanded(child: SizedBox.expand()),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(width: 80, height: 18, color: Colors.white), // 이름 자리
+                  Container(width: 100, height: 16, color: Colors.white),
                   const SizedBox(height: 8),
-                  Container(width: 40, height: 12, color: Colors.white), // 직업 자리
+                  Container(width: 50, height: 10, color: Colors.white),
                 ],
               ),
             ),

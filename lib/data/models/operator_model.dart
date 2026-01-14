@@ -1,9 +1,9 @@
 class OperatorModel {
   final String charId;
   final String name;
-  final String rarity;
+  final int rarity; // String -> int 변경
   final String profession;
-  final List<SkinModel> skins; // 스킨 리스트 추가
+  final List<SkinModel> skins;
 
   OperatorModel({
     required this.charId,
@@ -17,13 +17,11 @@ class OperatorModel {
     return OperatorModel(
       charId: json['char_id'] ?? '',
       name: json['name'] ?? 'Unknown',
-      rarity: json['rarity'] ?? "Tier_1",
+      rarity: json['rarity'] is int ? json['rarity'] : int.tryParse(json['rarity'].toString()) ?? 0,
       profession: json['profession'] ?? '',
-      // skins 배열이 null일 경우 빈 리스트로 처리, 있으면 매핑
       skins: (json['skins'] as List<dynamic>?)
               ?.map((e) => SkinModel.fromJson(e))
-              .toList() ??
-          [],
+              .toList() ?? [],
     );
   }
 }
@@ -121,9 +119,9 @@ class AttributeModel {
   final int maxHp;
   final int atk;
   final int def;
-  final int magicResistance; // <--- 추가
+  final double magicResistance; // int -> double 변경
   final int cost;
-  final int blockCnt; // <-- 추가
+  final int blockCnt;
 
   AttributeModel({
     required this.level,
@@ -137,13 +135,14 @@ class AttributeModel {
 
   factory AttributeModel.fromJson(Map<String, dynamic> json) {
     return AttributeModel(
-      level: json['level'],
-      maxHp: json['max_hp'],
-      atk: json['atk'],
-      def: json['def'],
-      magicResistance: json['magic_resistance'] ?? 0, // 기본값 0
-      cost: json['cost'],
-      blockCnt: json['block_cnt'] ?? 0, // 기본값 0
+      level: json['level'] ?? 0,
+      maxHp: json['max_hp'] ?? 0,
+      atk: json['atk'] ?? 0,
+      def: json['def'] ?? 0,
+      // DB의 numeric 타입을 안정적으로 double로 파싱
+      magicResistance: (json['magic_resistance'] ?? 0).toDouble(),
+      cost: json['cost'] ?? 0,
+      blockCnt: json['block_cnt'] ?? 0,
     );
   }
 }

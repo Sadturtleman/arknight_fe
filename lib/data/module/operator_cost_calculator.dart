@@ -32,17 +32,14 @@ class ArknightsResourceCalculator {
     int totalExp = 0;
     int totalLmd = 0;
 
-    // 1. 해당 성급의 정예화 단계별 최대 레벨 가져오기 (예: 6성은 [50, 80, 90])
-    final List<int> maxLevels = _data['max_level_table']["${rarity}_star"];
-    final List<int> promoCosts = _data['promotion_costs_lmd']["${rarity}_star"];
+    // [수정] List<int>.from()을 사용하여 명시적으로 타입을 변환합니다.
+    final List<int> maxLevels = List<int>.from(_data['max_level_table']["${rarity}_star"]);
+    final List<int> promoCosts = List<int>.from(_data['promotion_costs_lmd']["${rarity}_star"]);
 
     for (int e = curE; e <= tarE; e++) {
       int start = (e == curE) ? curL : 1;
-      
-      // 핵심: 목표 단계가 아니면 해당 단계의 '최대 레벨'까지만 더함
       int limit = (e == tarE) ? tarL : maxLevels[e];
       
-      // 누적합 계산 시 인덱스가 배열 범위를 넘지 않도록 제한
       totalExp += _cumExp[e][limit] - _cumExp[e][start];
       totalLmd += _cumLmd[e][limit] - _cumLmd[e][start];
 

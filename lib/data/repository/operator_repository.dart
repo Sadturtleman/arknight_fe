@@ -13,7 +13,7 @@ class OperatorRepository {
 
   OperatorRepository(this._dio);
 
-  Future<List<OperatorModel>> getOperators({int skip = 0, int limit = 50, String? rarity}) async {
+  Future<List<OperatorModel>> getOperators({int skip = 0, int limit = 50, int? rarity}) async {
     try {
       final response = await _dio.get(
         '/operators',
