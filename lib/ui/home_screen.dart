@@ -1,10 +1,13 @@
+import 'package:arknight_fe/data/model/operator_model.dart';
+import 'package:arknight_fe/data/state/pagination_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import '../provider/operator_provider.dart';
-import '../data/models/operator_model.dart';
 import 'package:shimmer/shimmer.dart';
+
+final rarityFilterProvider = StateProvider<int?>((ref) => null);
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});

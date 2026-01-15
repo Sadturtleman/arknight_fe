@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$OperatorResponse {
 
- int get characterId; String get code; String get name; String get rarity; ProfessionResponse get profession; SubProfessionResponse get subProfession; String get iconUrl;
+ int get characterId; String get code; String get name; int get rarity; ProfessionResponse get profession; SubProfessionResponse get subProfession; String get iconUrl;
 /// Create a copy of OperatorResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $OperatorResponseCopyWith<$Res>  {
   factory $OperatorResponseCopyWith(OperatorResponse value, $Res Function(OperatorResponse) _then) = _$OperatorResponseCopyWithImpl;
 @useResult
 $Res call({
- int characterId, String code, String name, String rarity, ProfessionResponse profession, SubProfessionResponse subProfession, String iconUrl
+ int characterId, String code, String name, int rarity, ProfessionResponse profession, SubProfessionResponse subProfession, String iconUrl
 });
 
 
@@ -71,7 +71,7 @@ characterId: null == characterId ? _self.characterId : characterId // ignore: ca
 as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,rarity: null == rarity ? _self.rarity : rarity // ignore: cast_nullable_to_non_nullable
-as String,profession: null == profession ? _self.profession : profession // ignore: cast_nullable_to_non_nullable
+as int,profession: null == profession ? _self.profession : profession // ignore: cast_nullable_to_non_nullable
 as ProfessionResponse,subProfession: null == subProfession ? _self.subProfession : subProfession // ignore: cast_nullable_to_non_nullable
 as SubProfessionResponse,iconUrl: null == iconUrl ? _self.iconUrl : iconUrl // ignore: cast_nullable_to_non_nullable
 as String,
@@ -177,7 +177,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int characterId,  String code,  String name,  String rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  String iconUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int characterId,  String code,  String name,  int rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  String iconUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OperatorResponse() when $default != null:
 return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profession,_that.subProfession,_that.iconUrl);case _:
@@ -198,7 +198,7 @@ return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int characterId,  String code,  String name,  String rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  String iconUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int characterId,  String code,  String name,  int rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  String iconUrl)  $default,) {final _that = this;
 switch (_that) {
 case _OperatorResponse():
 return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profession,_that.subProfession,_that.iconUrl);case _:
@@ -218,7 +218,7 @@ return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int characterId,  String code,  String name,  String rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  String iconUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int characterId,  String code,  String name,  int rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  String iconUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _OperatorResponse() when $default != null:
 return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profession,_that.subProfession,_that.iconUrl);case _:
@@ -239,7 +239,7 @@ class _OperatorResponse implements OperatorResponse {
 @override final  int characterId;
 @override final  String code;
 @override final  String name;
-@override final  String rarity;
+@override final  int rarity;
 @override final  ProfessionResponse profession;
 @override final  SubProfessionResponse subProfession;
 @override final  String iconUrl;
@@ -277,7 +277,7 @@ abstract mixin class _$OperatorResponseCopyWith<$Res> implements $OperatorRespon
   factory _$OperatorResponseCopyWith(_OperatorResponse value, $Res Function(_OperatorResponse) _then) = __$OperatorResponseCopyWithImpl;
 @override @useResult
 $Res call({
- int characterId, String code, String name, String rarity, ProfessionResponse profession, SubProfessionResponse subProfession, String iconUrl
+ int characterId, String code, String name, int rarity, ProfessionResponse profession, SubProfessionResponse subProfession, String iconUrl
 });
 
 
@@ -300,7 +300,7 @@ characterId: null == characterId ? _self.characterId : characterId // ignore: ca
 as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,rarity: null == rarity ? _self.rarity : rarity // ignore: cast_nullable_to_non_nullable
-as String,profession: null == profession ? _self.profession : profession // ignore: cast_nullable_to_non_nullable
+as int,profession: null == profession ? _self.profession : profession // ignore: cast_nullable_to_non_nullable
 as ProfessionResponse,subProfession: null == subProfession ? _self.subProfession : subProfession // ignore: cast_nullable_to_non_nullable
 as SubProfessionResponse,iconUrl: null == iconUrl ? _self.iconUrl : iconUrl // ignore: cast_nullable_to_non_nullable
 as String,
@@ -864,7 +864,7 @@ as String,
 /// @nodoc
 mixin _$CharacterDetailResponse {
 
- int get characterId; String get code; String get name; String get rarity; ProfessionResponse get profession; SubProfessionResponse get subProfession; List<String> get tags; List<OperatorStatResponse> get stat; String get itemUsage; String get itemDesc; String get iconUrl; String get portraitUrl;
+ int get characterId; String get code; String get name; int get rarity; ProfessionResponse get profession; SubProfessionResponse get subProfession; List<String> get tags; List<OperatorStatResponse> get stat; String get itemUsage; String get itemDesc; String get iconUrl; String get portraitUrl;
 /// Create a copy of CharacterDetailResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -897,7 +897,7 @@ abstract mixin class $CharacterDetailResponseCopyWith<$Res>  {
   factory $CharacterDetailResponseCopyWith(CharacterDetailResponse value, $Res Function(CharacterDetailResponse) _then) = _$CharacterDetailResponseCopyWithImpl;
 @useResult
 $Res call({
- int characterId, String code, String name, String rarity, ProfessionResponse profession, SubProfessionResponse subProfession, List<String> tags, List<OperatorStatResponse> stat, String itemUsage, String itemDesc, String iconUrl, String portraitUrl
+ int characterId, String code, String name, int rarity, ProfessionResponse profession, SubProfessionResponse subProfession, List<String> tags, List<OperatorStatResponse> stat, String itemUsage, String itemDesc, String iconUrl, String portraitUrl
 });
 
 
@@ -920,7 +920,7 @@ characterId: null == characterId ? _self.characterId : characterId // ignore: ca
 as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,rarity: null == rarity ? _self.rarity : rarity // ignore: cast_nullable_to_non_nullable
-as String,profession: null == profession ? _self.profession : profession // ignore: cast_nullable_to_non_nullable
+as int,profession: null == profession ? _self.profession : profession // ignore: cast_nullable_to_non_nullable
 as ProfessionResponse,subProfession: null == subProfession ? _self.subProfession : subProfession // ignore: cast_nullable_to_non_nullable
 as SubProfessionResponse,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
 as List<String>,stat: null == stat ? _self.stat : stat // ignore: cast_nullable_to_non_nullable
@@ -1031,7 +1031,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int characterId,  String code,  String name,  String rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  List<String> tags,  List<OperatorStatResponse> stat,  String itemUsage,  String itemDesc,  String iconUrl,  String portraitUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int characterId,  String code,  String name,  int rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  List<String> tags,  List<OperatorStatResponse> stat,  String itemUsage,  String itemDesc,  String iconUrl,  String portraitUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CharacterDetailResponse() when $default != null:
 return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profession,_that.subProfession,_that.tags,_that.stat,_that.itemUsage,_that.itemDesc,_that.iconUrl,_that.portraitUrl);case _:
@@ -1052,7 +1052,7 @@ return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int characterId,  String code,  String name,  String rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  List<String> tags,  List<OperatorStatResponse> stat,  String itemUsage,  String itemDesc,  String iconUrl,  String portraitUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int characterId,  String code,  String name,  int rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  List<String> tags,  List<OperatorStatResponse> stat,  String itemUsage,  String itemDesc,  String iconUrl,  String portraitUrl)  $default,) {final _that = this;
 switch (_that) {
 case _CharacterDetailResponse():
 return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profession,_that.subProfession,_that.tags,_that.stat,_that.itemUsage,_that.itemDesc,_that.iconUrl,_that.portraitUrl);case _:
@@ -1072,7 +1072,7 @@ return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int characterId,  String code,  String name,  String rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  List<String> tags,  List<OperatorStatResponse> stat,  String itemUsage,  String itemDesc,  String iconUrl,  String portraitUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int characterId,  String code,  String name,  int rarity,  ProfessionResponse profession,  SubProfessionResponse subProfession,  List<String> tags,  List<OperatorStatResponse> stat,  String itemUsage,  String itemDesc,  String iconUrl,  String portraitUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _CharacterDetailResponse() when $default != null:
 return $default(_that.characterId,_that.code,_that.name,_that.rarity,_that.profession,_that.subProfession,_that.tags,_that.stat,_that.itemUsage,_that.itemDesc,_that.iconUrl,_that.portraitUrl);case _:
@@ -1093,7 +1093,7 @@ class _CharacterDetailResponse implements CharacterDetailResponse {
 @override final  int characterId;
 @override final  String code;
 @override final  String name;
-@override final  String rarity;
+@override final  int rarity;
 @override final  ProfessionResponse profession;
 @override final  SubProfessionResponse subProfession;
  final  List<String> _tags;
@@ -1148,7 +1148,7 @@ abstract mixin class _$CharacterDetailResponseCopyWith<$Res> implements $Charact
   factory _$CharacterDetailResponseCopyWith(_CharacterDetailResponse value, $Res Function(_CharacterDetailResponse) _then) = __$CharacterDetailResponseCopyWithImpl;
 @override @useResult
 $Res call({
- int characterId, String code, String name, String rarity, ProfessionResponse profession, SubProfessionResponse subProfession, List<String> tags, List<OperatorStatResponse> stat, String itemUsage, String itemDesc, String iconUrl, String portraitUrl
+ int characterId, String code, String name, int rarity, ProfessionResponse profession, SubProfessionResponse subProfession, List<String> tags, List<OperatorStatResponse> stat, String itemUsage, String itemDesc, String iconUrl, String portraitUrl
 });
 
 
@@ -1171,7 +1171,7 @@ characterId: null == characterId ? _self.characterId : characterId // ignore: ca
 as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,rarity: null == rarity ? _self.rarity : rarity // ignore: cast_nullable_to_non_nullable
-as String,profession: null == profession ? _self.profession : profession // ignore: cast_nullable_to_non_nullable
+as int,profession: null == profession ? _self.profession : profession // ignore: cast_nullable_to_non_nullable
 as ProfessionResponse,subProfession: null == subProfession ? _self.subProfession : subProfession // ignore: cast_nullable_to_non_nullable
 as SubProfessionResponse,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
 as List<String>,stat: null == stat ? _self._stat : stat // ignore: cast_nullable_to_non_nullable

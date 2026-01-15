@@ -18,7 +18,7 @@ _OperatorResponse _$OperatorResponseFromJson(Map<String, dynamic> json) =>
           ),
           code: $checkedConvert('code', (v) => v as String),
           name: $checkedConvert('name', (v) => v as String),
-          rarity: $checkedConvert('rarity', (v) => v as String),
+          rarity: $checkedConvert('rarity', (v) => (v as num).toInt()),
           profession: $checkedConvert(
             'profession',
             (v) => ProfessionResponse.fromJson(v as Map<String, dynamic>),
@@ -96,7 +96,7 @@ _CharacterDetailResponse _$CharacterDetailResponseFromJson(
       characterId: $checkedConvert('character_id', (v) => (v as num).toInt()),
       code: $checkedConvert('code', (v) => v as String),
       name: $checkedConvert('name', (v) => v as String),
-      rarity: $checkedConvert('rarity', (v) => v as String),
+      rarity: $checkedConvert('rarity', (v) => (v as num).toInt()),
       profession: $checkedConvert(
         'profession',
         (v) => ProfessionResponse.fromJson(v as Map<String, dynamic>),
